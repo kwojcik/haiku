@@ -2,5 +2,5 @@ Generate a haiku with some punctuation and place a period at the end of each lin
 
 The first argument can be used as an argument to grep -E for words
 
-protip: `./haiku.sh | say`
+protip: `./haiku | say`
 
