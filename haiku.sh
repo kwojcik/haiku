@@ -2,7 +2,7 @@
 #
 # The first argument can be used as an argument to grep -E for words
 #
-# protip: haiku | say
+# protip: ./haiku.sh | say
 
 for i in 5 7 5; do
     echo -n `cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
