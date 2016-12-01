@@ -1,5 +1,8 @@
 #!/bin/bash
 word_and_syllables () {
+    # Scrape dictionary.com to get the number of syllables in the word
+    # They don't have everything in /usr/share/dict/words, so loop until we find something
+    # that has some syllables
     while true; do
         WORD=`cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
         SYLLABLES=`curl -G http://www.dictionary.com/browse/$WORD 2>/dev/null | grep 'data-syllable' | head -n 1 | sed 's/[^·]//g' | wc -m`;
@@ -11,18 +14,29 @@ word_and_syllables () {
 
 for i in 5 7 5; do
     while true; do
+        # Get a new word and syllables
         word_and_syllables $1
+
+        # Use this word if it's not too big
         if [ $SYLLABLES -le $i ]; then
             echo -n "$WORD";
+        else
+            continue
+        fi
+        
+        # Add some punctuation so make stuff dramatic
         if [ $(($RANDOM % 5)) -eq '0' ]; then
             echo -n ','
         fi
-        echo -n ' '
-            (( i -= $SYLLABLES ))
-        fi
+
+
+        # Have we finished this line
+        (( i -= $SYLLABLES ))
         if [ $i -eq 0 ]; then
             echo "."
             break
+        else
+            echo -n ' '
         fi
     done
 done
