@@ -1,13 +1,28 @@
 #!/bin/bash
+word_and_syllables () {
+    while true; do
+        WORD=`cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
+        SYLLABLES=`curl -G http://www.dictionary.com/browse/$WORD 2>/dev/null | grep 'data-syllable' | head -n 1 | sed 's/[^·]//g' | wc -m`;
+        if [ $SYLLABLES -ne '0' ]; then
+            break
+        fi
+    done
+}
 
 for i in 5 7 5; do
-    echo -n `cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
-    for j in `seq 2 $i`; do 
+    while true; do
+        word_and_syllables
+        if [ $SYLLABLES -le $i ]; then
+            echo -n "$WORD";
         if [ $(($RANDOM % 5)) -eq '0' ]; then
             echo -n ','
         fi
         echo -n ' '
-        echo -n `cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
+            (( i -= $SYLLABLES ))
+        fi
+        if [ $i -eq 0 ]; then
+            echo "."
+            break
+        fi
     done
-    echo '.';
 done
