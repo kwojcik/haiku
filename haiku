@@ -24,11 +24,6 @@ for i in 5 7 5; do
             continue
         fi
         
-        # Add some punctuation so make stuff dramatic
-        if [ $(($RANDOM % 5)) -eq '0' ]; then
-            echo -n ','
-        fi
-
 
         # Have we finished this line
         (( i -= $SYLLABLES ))
@@ -36,6 +31,11 @@ for i in 5 7 5; do
             echo "."
             break
         else
+            # Add some punctuation so make stuff dramatic
+            if [ $(($RANDOM % 5)) -eq '0' ]; then
+                echo -n ','
+            fi
+
             echo -n ' '
         fi
     done
