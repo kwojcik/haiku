@@ -11,7 +11,7 @@ word_and_syllables () {
 
 for i in 5 7 5; do
     while true; do
-        word_and_syllables
+        word_and_syllables $1
         if [ $SYLLABLES -le $i ]; then
             echo -n "$WORD";
         if [ $(($RANDOM % 5)) -eq '0' ]; then
