@@ -5,7 +5,7 @@ word_and_syllables () {
     # that has some syllables
     while true; do
         WORD=`cat /usr/share/dict/words | grep -E "$1" | gshuf | head -n 1`;
-        SYLLABLES=`curl -G http://www.dictionary.com/browse/$WORD 2>/dev/null | grep 'data-syllable' | grep $WORD | head -n 1 | sed 's/[^·]//g' | wc -m`;
+        SYLLABLES=`curl -G http://www.dictionary.com/browse/$WORD 2>/dev/null | grep 'data-syllable' | grep -E "$WORD[,<]" | head -n 1 | sed 's/[^·]//g' | wc -m`;
         if [ $SYLLABLES -ne '0' ]; then
             break
         fi
